@@ -8,7 +8,7 @@ class Node
 {
 private:
     std::string value_;
-    std::map<std::string, Node> children_;
+    std::map<std::string, Node*> children_;
 public:
     Node() = default;
     Node(std::string value);
@@ -19,4 +19,4 @@ public:
     friend std::ostream& operator <<(std::ostream& os, const Node& node);
 };
 
-void insert(Node &node, std::string value);
+void insert(Node *node, std::string value);

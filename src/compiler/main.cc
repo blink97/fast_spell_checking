@@ -2,11 +2,13 @@
 // create patricia trie
 // compile trie in binary
 
+#include "trie.hh"
+
 
 int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    return 1;
-  }
-  
+  Node *root = new Node();
+  insert(root, "tester");
+  insert(root, "teaser");
+  std::cout << *root << std::endl;
   return 0;
 }
