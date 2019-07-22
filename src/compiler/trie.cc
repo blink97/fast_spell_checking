@@ -15,6 +15,22 @@ void Node::insert_child(std::string value){
     (*this).children_.insert(std::pair<std::string, Node>(value, Node(value)));
 }
 
+std::ostream& operator <<(std::ostream& os, const Node& node)
+{
+    os << node.value_;
+    os << " : {";
+    for(auto it = node.children_.begin(); it != node.children_.end(); ++it)
+    {
+        os << it->first << ", ";
+    }
+    os << "}\n";
+    for(auto it = node.children_.begin(); it != node.children_.end(); ++it)
+    {
+        os << it->second;
+    }
+    return os;
+}
+
 void insert(Node &node, std::string value)
 {
     for (size_t i = 0; i < value.length(); i++)
