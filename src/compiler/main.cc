@@ -10,5 +10,8 @@ int main(int argc, char *argv[]) {
   insert(root, "tester");
   insert(root, "teaser");
   std::cout << *root << std::endl;
+
+  delete root;
+
   return 0;
 }

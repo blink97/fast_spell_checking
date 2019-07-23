@@ -3,6 +3,14 @@
 Node::Node(std::string value) : value_(value)
 {}
 
+Node::~Node()
+{
+    for(auto it = (*this).children_.begin(); it != (*this).children_.end(); ++it)
+    {
+        delete it->second;
+    }
+}
+
 Node *Node::get_child(std::string value)
 {
     auto res = (*this).children_.find(value);

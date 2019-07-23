@@ -12,6 +12,7 @@ private:
 public:
     Node() = default;
     Node(std::string value);
+    ~Node();
     std::string get_value() const { return value_; };
     Node *get_child(std::string value);
     void insert_child(std::string value);
