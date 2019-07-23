@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
   insert(root, "slow");
   insert(root, "water");
   insert(root, "slower");
+  insert(root, "team");
   std::cout << *root << std::endl;
 
   delete root;

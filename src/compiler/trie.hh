@@ -16,6 +16,7 @@ public:
     std::string get_value() const { return value_; };
     Node *get_child(std::string value);
     void insert_child(std::string value);
+    std::string commun_prefix(std::string value);
 
     friend std::ostream& operator <<(std::ostream& os, const Node& node);
 };
