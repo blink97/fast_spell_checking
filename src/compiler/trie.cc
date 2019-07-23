@@ -41,14 +41,19 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
 
 void insert(Node *node, std::string value)
 {
-    for (size_t i = 0; i < value.length(); i++)
+    std::cout << value.length() << std::endl;
+    for (size_t i = value.length(); i > 0; i--)
     {
-        std::string c = value.substr(i, 1);
-        if (node->get_child(c) == NULL) 
-        {
-            node->insert_child(c);
+        std::string c = value.substr(0, i);
+        if (node->get_child(c) != NULL) {
+            std::cout << value.substr(i, value.length() - i) << std::endl;
+            insert(node->get_child(c), value.substr(i, value.length() - i));
+            i = 1;
         }
-        node = node->get_child(c);
+        else if (node->get_child(c) == NULL && i == 1) 
+        {
+            node->insert_child(value);
+        }
+        //node = node->get_child(c);
     }
-    
 }

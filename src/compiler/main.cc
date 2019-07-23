@@ -7,8 +7,10 @@
 
 int main(int argc, char *argv[]) {
   Node *root = new Node();
-  insert(root, "tester");
-  insert(root, "teaser");
+  insert(root, "test");
+  insert(root, "slow");
+  insert(root, "water");
+  insert(root, "slower");
   std::cout << *root << std::endl;
 
   delete root;
