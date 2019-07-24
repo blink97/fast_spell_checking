@@ -105,19 +105,15 @@ void insert(Node *node, std::string value)
         }
         else
         {   
-            std::cout << "old_part" << std::endl;
             Node *old_part = node->get_child(prefix);
             old_part->set_value(suffix_commun);
 
-            std::cout << "new_node" << std::endl;
             Node *new_node  = new Node(real_prefix);
             node->set_child_key(prefix, real_prefix);
 
-            std::cout << "insert" << std::endl;
             new_node->insert_child(suffix_commun, old_part);
             new_node->insert_child(suffix);
 
-            std::cout << "set" << std::endl;
             node->set_child(real_prefix, new_node);
         }
     }

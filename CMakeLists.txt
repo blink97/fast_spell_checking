@@ -3,4 +3,4 @@ project(tmln)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(compiler src/compiler/main.cc src/compiler/trie.cc)
+add_executable(compiler src/compiler/main.cc src/compiler/trie.cc src/compiler/reader.cc)
