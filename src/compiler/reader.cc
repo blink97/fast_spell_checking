@@ -14,7 +14,7 @@ Node *read(std::string path)
     {
         if (i == 0)
         {
-            insert(root, word);
+            insert(root, word.c_str());
             i++;
         }
         else

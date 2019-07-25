@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string.h>
+
 #include <string>
 #include <map>
 #include <iostream>
@@ -7,27 +9,29 @@
 class Node
 {
 private:
-    std::string value_;
-    std::map<std::string, Node*> children_;
+    // string to char*
+    // vtable ?
+    char* value_;
+    std::map<char*, Node*> children_;
 public:
     Node() = default;
-    Node(std::string value);
-    Node(Node* node, std::string value);
+    Node(char* value);
+    Node(Node* node, char* value);
     ~Node();
     
-    std::string get_value() const { return value_; };
-    void set_value(std::string value) { value_ = value; };
+    char* get_value() const { return value_; };
+    void set_value(char* value) { value_ = value; };
 
-    Node *get_child(std::string value);
-    void set_child(std::string value, Node *node);
+    Node *get_child(char* value);
+    void set_child(char* value, Node *node);
 
-    void insert_child(std::string value);
-    void insert_child(std::string value, Node *node);
-    void set_child_key(std::string old_key, std::string new_key);
+    void insert_child(char* value);
+    void insert_child(char* value, Node *node);
+    void set_child_key(char* old_key, char* new_key);
 
-    std::string commun_prefix(std::string value);
+    char* commun_prefix(const char* value);
 
     friend std::ostream& operator <<(std::ostream& os, const Node& node);
 };
 
-void insert(Node *node, std::string value);
+void insert(Node *node, const char* value);

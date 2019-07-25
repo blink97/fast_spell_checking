@@ -1,11 +1,11 @@
 #include "trie.hh"
 
-Node::Node(std::string value) : value_(value)
+Node::Node(char* value) : value_(value)
 {}
 
-Node::Node(Node *node, std::string value) : value_(value)
+Node::Node(Node *node, char* value) : value_(value)
 {
-    children_.insert(std::pair<std::string, Node*>(node->get_value(), node));
+    children_.insert(std::pair<char*, Node*>(node->get_value(), node));
 }
 
 Node::~Node()
@@ -14,9 +14,10 @@ Node::~Node()
     {
         delete it->second;
     }
+    delete value_;
 }
 
-Node *Node::get_child(std::string value)
+Node *Node::get_child(char* value)
 {
     auto res = (*this).children_.find(value);
     if (res == (*this).children_.end())
@@ -24,56 +25,51 @@ Node *Node::get_child(std::string value)
     return res->second;
 }
 
-void Node::set_child(std::string value, Node *node)
+void Node::set_child(char* value, Node *node)
 {
     auto it = (*this).children_.find(value);
     it->second = node;
 }
 
-void Node::insert_child(std::string value)
+void Node::insert_child(char* value)
 {
-    (*this).children_.insert(std::pair<std::string, Node*>(value, new Node(value)));
+    (*this).children_.insert(std::pair<char*, Node*>(value, new Node(value)));
 }
 
-void Node::insert_child(std::string value, Node *node)
+void Node::insert_child(char* value, Node *node)
 {
-    (*this).children_.insert(std::pair<std::string, Node*>(value, node));
+    (*this).children_.insert(std::pair<char*, Node*>(value, node));
 }
 
-void Node::set_child_key(std::string old_key, std::string new_key)
+void Node::set_child_key(char* old_key, char* new_key)
 {
     auto nodeHandler = (*this).children_.extract(old_key);
     nodeHandler.key() = new_key;
     (*this).children_.insert(std::move(nodeHandler));
 }
 
-std::string commonPrefixUtil(std::string str1, std::string str2) 
+char* commonPrefixUtil(const char* str1, char* str2) 
 { 
-    std::string result = ""; 
-    int n1 = str1.length();
-    int n2 = str2.length();
-  
-    // Compare str1 and str2 
-    for (int i = 0, j = 0; i <= n1 - 1 && j <= n2 - 1; i++ ,j++) 
-    { 
-        if (str1[i] != str2[j]) 
-            break; 
-        result.push_back(str1[i]); 
-    } 
-    return result; 
+    size_t i=0;
+    char *comm_pref;
+    
+    for(;str1[i]==str2[i];i++);
+    comm_pref = (char *)malloc(i * sizeof(char));
+    memcpy(comm_pref, str1, i);
+    return comm_pref;
 } 
 
-std::string Node::commun_prefix(std::string value)
+char* Node::commun_prefix(const char* value)
 {
     for (auto it = (*this).children_.begin(); it != (*this).children_.end(); ++it)
     {
-        std::string prefix = commonPrefixUtil(value, it->first);
-        if (prefix != "")
+        char* prefix = commonPrefixUtil(value, it->first);
+        if (prefix != NULL)
         {
             return it->first;
         }
     }
-    return "";
+    return NULL;
 }
 
 std::ostream& operator <<(std::ostream& os, const Node& node)
@@ -92,14 +88,22 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
     return os;
 }
 
-void insert(Node *node, std::string value)
+void insert(Node *node, const char* value)
 {
-    std::string prefix = node->commun_prefix(value);
-    if (prefix != "") // Word as a commun prefix with value
+    char* prefix = node->commun_prefix(value);
+    if (prefix != "") // Word as a commun prcefix with value
     {
-        std::string real_prefix = commonPrefixUtil(prefix, value);
-        std::string suffix = value.substr(real_prefix.length(), value.length() - real_prefix.length());
-        std::string suffix_commun = prefix.substr(real_prefix.length(), prefix.length() - real_prefix.length());
+        char* real_prefix = commonPrefixUtil(value, prefix);
+        //std::string suffix = value.substr(real_prefix.length(),prefix.length() - real_prefix.length());
+        size_t index = strlen(prefix) - strlen(real_prefix);
+
+        char* suffix = (char *)malloc(index * sizeof(char));
+        memcpy(suffix, &value[strlen(real_prefix)], index);
+
+        //std::string suffix_commun = prefix.substr(real_prefix.length(), prefix.length() - real_prefix.length());
+        char* suffix_commun = (char *)malloc(index * sizeof(char));
+        memcpy(suffix_commun, &prefix[strlen(real_prefix)], index);
+
         if (node->get_child(real_prefix) != NULL) { // Word is a prefix of value
             insert(node->get_child(real_prefix), suffix);
         }
@@ -118,12 +122,14 @@ void insert(Node *node, std::string value)
         }
     }
     else {
-        for (size_t i = value.length(); i > 0; i--)
+        for (size_t i = strlen(value); i > 0; i--)
         {
-            std::string c = value.substr(0, i);
+            //std::string c = value.substr(0, i);
+            char* c = (char *)malloc(i * sizeof(char));
+            memcpy(c, &value[0], i);
             if (node->get_child(c) == NULL && i == 1) // Value isn't the map
             {
-                node->insert_child(value);
+                node->insert_child((char*)value);
             }
             //node = node->get_child(c);
         }
