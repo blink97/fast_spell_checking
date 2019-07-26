@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
   Node *root = new Node();
 
-  char* test = (char *)malloc(5 * sizeof(char));
+  /*char* test = (char *)malloc(5 * sizeof(char));
   strcpy(test, "test");
   char* slow = (char *)malloc(5 * sizeof(char));
   strcpy(slow, "slow");
@@ -28,24 +28,24 @@ int main(int argc, char *argv[]) {
   char* team = (char *)malloc(5 * sizeof(char));
   strcpy(team, "team");
   char* toast= (char *)malloc(6 * sizeof(char));
-  strcpy(toast, "toast");
+  strcpy(toast, "toast");*/
 
 
 
-  std::cout << test << std::endl;
-  insert(root, test);
-  std::cout << slow << std::endl;
-  insert(root, slow);
-  std::cout << water << std::endl;
-  insert(root, water);
-  std::cout << slower << std::endl;
-  insert(root, slower);
-  std::cout << team << std::endl;
-  insert(root, team);
-  std::cout << toast << std::endl;
-  insert(root, toast);
+  std::cout << "test" << std::endl;
+  insert(root, "test");
+  std::cout << "slow" << std::endl;
+  insert(root, "slow");
+  std::cout << "water" << std::endl;
+  insert(root, "water");
+  std::cout << "slower" << std::endl;
+  insert(root, "slower");
+  std::cout << "team" << std::endl;
+  insert(root, "team");
+  std::cout << "toast" << std::endl;
+  insert(root, "toast");
 
-  //std::cout << *root << std::endl;
+  std::cout << *root << std::endl;
 
   std::cout << "delete" << std::endl;
   delete root;

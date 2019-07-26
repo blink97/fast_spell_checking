@@ -20,10 +20,10 @@ Node *read(std::string path)
             strcpy(w, word.c_str());
             insert(root, w);
             i++;
+            cpt++;
         }
         else
             i = 0;
-        cpt++;
     }
     return root;
 }

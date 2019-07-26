@@ -1,11 +1,11 @@
 #include "trie.hh"
 
-Node::Node(char* value) : value_(value)
+Node::Node(char value) : value_(value)
 {}
 
-Node::Node(Node *node, char* value) : value_(value)
+Node::Node(Node *node, char value) : value_(value)
 {
-    children_.insert(std::pair<char*, Node*>(node->get_value(), node));
+    children_.insert(std::pair<char, Node*>(node->get_value(), node));
 }
 
 Node::~Node()
@@ -14,11 +14,9 @@ Node::~Node()
     {
         delete it->second;
     }
-    if (value_ != NULL)
-        free(value_);
 }
 
-Node *Node::get_child(char* value)
+Node *Node::get_child(char value)
 {
     auto res = (*this).children_.find(value);
     if (res == (*this).children_.end())
@@ -26,23 +24,23 @@ Node *Node::get_child(char* value)
     return res->second;
 }
 
-void Node::set_child(char* value, Node *node)
+void Node::set_child(char value, Node *node)
 {
     auto it = (*this).children_.find(value);
     it->second = node;
 }
 
-void Node::insert_child(char* value)
+void Node::insert_child(char value)
 {
-    (*this).children_.insert(std::pair<char*, Node*>(value, new Node(value)));
+    (*this).children_.insert(std::pair<char, Node*>(value, new Node(value)));
 }
 
-void Node::insert_child(char* value, Node *node)
+void Node::insert_child(char value, Node *node)
 {
-    (*this).children_.insert(std::pair<char*, Node*>(value, node));
+    (*this).children_.insert(std::pair<char, Node*>(value, node));
 }
 
-void Node::set_child_key(char* old_key, char* new_key)
+void Node::set_child_key(char old_key, char new_key)
 {
     auto nodeHandler = (*this).children_.extract(old_key);
     nodeHandler.key() = new_key;
@@ -55,7 +53,7 @@ char* commonPrefixUtil(char* str1, char* str2)
     char *comm_pref;
     size_t m = std::min(strlen(str1), strlen(str2));
     
-    for(;i > m; i++) //THERE !!!!!!!!!!
+    for(;i > m; i++)
     {
         if (str1[i] != str2[i] || str1[i] == '\0' || str2[i] == '\0')
             break;
@@ -69,7 +67,7 @@ char* commonPrefixUtil(char* str1, char* str2)
     return NULL;
 } 
 
-char* Node::commun_prefix(char* value)
+/*char* Node::commun_prefix(char* value)
 {
     for (auto it = (*this).children_.begin(); it != (*this).children_.end(); ++it)
     {
@@ -80,7 +78,7 @@ char* Node::commun_prefix(char* value)
         }
     }
     return NULL;
-}
+}*/
 
 std::ostream& operator <<(std::ostream& os, const Node& node)
 {
@@ -98,7 +96,7 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
     return os;
 }
 
-void insert(Node *node, char* value)
+/*void insert(Node *node, char* value)
 {
     char* prefix = node->commun_prefix(value);
     if (prefix != NULL) // Word as a commun prcefix with value
@@ -146,4 +144,18 @@ void insert(Node *node, char* value)
         }
     }
 
+}*/
+
+void insert(Node *node, std::string value)
+{
+    for (size_t i = 0; i < value.length(); i++)
+    {
+        char c = value[i];
+        if (node->get_child(c) == NULL) 
+        {
+            node->insert_child(c);
+        }
+        node = node->get_child(c);
+    }
+    
 }
