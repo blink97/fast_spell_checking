@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <algorithm>
 
 class Node
 {
@@ -19,7 +20,7 @@ public:
     Node(Node* node, char* value);
     ~Node();
     
-    char* get_value() const { return value_; };
+    char* get_value() { return value_; };
     void set_value(char* value) { value_ = value; };
 
     Node *get_child(char* value);
@@ -29,9 +30,9 @@ public:
     void insert_child(char* value, Node *node);
     void set_child_key(char* old_key, char* new_key);
 
-    char* commun_prefix(const char* value);
+    char* commun_prefix(char* value);
 
     friend std::ostream& operator <<(std::ostream& os, const Node& node);
 };
 
-void insert(Node *node, const char* value);
+void insert(Node *node, char* value);

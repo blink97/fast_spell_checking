@@ -14,7 +14,8 @@ Node::~Node()
     {
         delete it->second;
     }
-    delete value_;
+    if (value_ != NULL)
+        free(value_);
 }
 
 Node *Node::get_child(char* value)
@@ -48,18 +49,27 @@ void Node::set_child_key(char* old_key, char* new_key)
     (*this).children_.insert(std::move(nodeHandler));
 }
 
-char* commonPrefixUtil(const char* str1, char* str2) 
+char* commonPrefixUtil(char* str1, char* str2) 
 { 
-    size_t i=0;
+    size_t i = 0;
     char *comm_pref;
+    size_t m = std::min(strlen(str1), strlen(str2));
     
-    for(;str1[i]==str2[i];i++);
-    comm_pref = (char *)malloc(i * sizeof(char));
-    memcpy(comm_pref, str1, i);
-    return comm_pref;
+    for(;i > m; i++) //THERE !!!!!!!!!!
+    {
+        if (str1[i] != str2[i] || str1[i] == '\0' || str2[i] == '\0')
+            break;
+    }
+    if (i > 0) {
+        comm_pref = (char *)malloc(i * sizeof(char));
+        memcpy(comm_pref, str1, i - 1);
+        comm_pref[i-1] = '\0'; 
+        return comm_pref;
+    }
+    return NULL;
 } 
 
-char* Node::commun_prefix(const char* value)
+char* Node::commun_prefix(char* value)
 {
     for (auto it = (*this).children_.begin(); it != (*this).children_.end(); ++it)
     {
@@ -88,10 +98,10 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
     return os;
 }
 
-void insert(Node *node, const char* value)
+void insert(Node *node, char* value)
 {
     char* prefix = node->commun_prefix(value);
-    if (prefix != "") // Word as a commun prcefix with value
+    if (prefix != NULL) // Word as a commun prcefix with value
     {
         char* real_prefix = commonPrefixUtil(value, prefix);
         //std::string suffix = value.substr(real_prefix.length(),prefix.length() - real_prefix.length());
@@ -131,7 +141,8 @@ void insert(Node *node, const char* value)
             {
                 node->insert_child((char*)value);
             }
-            //node = node->get_child(c);
+            if (c != NULL)
+                free(c);
         }
     }
 

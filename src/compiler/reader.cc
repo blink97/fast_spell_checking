@@ -9,16 +9,21 @@ Node *read(std::string path)
 
     std::string word;
     int i = 0;
+    int cpt = 1;
     Node *root = new Node();
     while (file >> word)
     {
         if (i == 0)
         {
-            insert(root, word.c_str());
+            std::cout << cpt << std::endl;
+            char* w = (char *)malloc((word.length() + 1) * sizeof(char));
+            strcpy(w, word.c_str());
+            insert(root, w);
             i++;
         }
         else
             i = 0;
+        cpt++;
     }
     return root;
 }
