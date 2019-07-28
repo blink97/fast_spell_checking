@@ -1,3 +1,5 @@
+#include <string>
+
 #include "reader.hh"
 
 Node *read(std::string path)
@@ -8,22 +10,17 @@ Node *read(std::string path)
         return NULL;
 
     std::string word;
-    int i = 0;
     int cpt = 1;
+    std::string freq = 0;
     Node *root = new Node();
     while (file >> word)
     {
-        if (i == 0)
-        {
-            std::cout << cpt << std::endl;
-            char* w = (char *)malloc((word.length() + 1) * sizeof(char));
-            strcpy(w, word.c_str());
-            insert(root, w);
-            i++;
-            cpt++;
-        }
-        else
-            i = 0;
+        file >> freq;
+        std::cout << cpt << std::endl;
+        char* w = (char *)malloc((word.length() + 1) * sizeof(char));
+        strcpy(w, word.c_str());
+        insert(root, w, std::stoi(freq));
+        cpt++;
     }
     return root;
 }

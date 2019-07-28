@@ -33,17 +33,17 @@ int main(int argc, char *argv[]) {
 
 
   std::cout << "test" << std::endl;
-  insert(root, "test");
+  insert(root, "test", 2);
   std::cout << "slow" << std::endl;
-  insert(root, "slow");
+  insert(root, "slow", 4);
   std::cout << "water" << std::endl;
-  insert(root, "water");
+  insert(root, "water", 5);
   std::cout << "slower" << std::endl;
-  insert(root, "slower");
+  insert(root, "slower", 4);
   std::cout << "team" << std::endl;
-  insert(root, "team");
+  insert(root, "team", 3);
   std::cout << "toast" << std::endl;
-  insert(root, "toast");
+  insert(root, "toast", 1);
 
   std::cout << *root << std::endl;
 

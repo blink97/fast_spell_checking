@@ -3,6 +3,10 @@
 Node::Node(char value) : value_(value)
 {}
 
+
+Node::Node(char value, int freq) : value_(value), freq_(freq)
+{}
+
 Node::Node(Node *node, char value) : value_(value)
 {
     children_.insert(std::pair<char, Node*>(node->get_value(), node));
@@ -33,6 +37,11 @@ void Node::set_child(char value, Node *node)
 void Node::insert_child(char value)
 {
     (*this).children_.insert(std::pair<char, Node*>(value, new Node(value)));
+}
+
+void Node::insert_child(char value, int freq)
+{
+    (*this).children_.insert(std::pair<char, Node*>(value, new Node(value, freq)));
 }
 
 void Node::insert_child(char value, Node *node)
@@ -88,7 +97,7 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
     {
         os << it->first << ", ";
     }
-    os << "}\n";
+    os << "} freq = " << node.freq_ <<"\n";
     for(auto it = node.children_.begin(); it != node.children_.end(); ++it)
     {
         os << *(it->second);
@@ -146,14 +155,17 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
 
 }*/
 
-void insert(Node *node, std::string value)
+void insert(Node *node, std::string value, int freq)
 {
     for (size_t i = 0; i < value.length(); i++)
     {
         char c = value[i];
         if (node->get_child(c) == NULL) 
         {
-            node->insert_child(c);
+            if (i == value.length() - 1)
+                node->insert_child(c, freq);
+            else
+                node->insert_child(c);
         }
         node = node->get_child(c);
     }
