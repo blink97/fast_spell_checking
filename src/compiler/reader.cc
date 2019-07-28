@@ -11,15 +11,13 @@ Node *read(std::string path)
 
     std::string word;
     int cpt = 1;
-    std::string freq = 0;
+    std::string freq;
     Node *root = new Node();
     while (file >> word)
     {
         file >> freq;
         std::cout << cpt << std::endl;
-        char* w = (char *)malloc((word.length() + 1) * sizeof(char));
-        strcpy(w, word.c_str());
-        insert(root, w, std::stoi(freq));
+        insert(root, word, std::stoi(freq));
         cpt++;
     }
     return root;

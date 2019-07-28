@@ -5,6 +5,8 @@
 #include "trie.hh"
 #include "reader.hh"
 
+#include <fstream>
+
 
 int main(int argc, char *argv[]) {
   if (argc == 2){
@@ -31,18 +33,11 @@ int main(int argc, char *argv[]) {
   strcpy(toast, "toast");*/
 
 
-
-  std::cout << "test" << std::endl;
   insert(root, "test", 2);
-  std::cout << "slow" << std::endl;
   insert(root, "slow", 4);
-  std::cout << "water" << std::endl;
   insert(root, "water", 5);
-  std::cout << "slower" << std::endl;
   insert(root, "slower", 4);
-  std::cout << "team" << std::endl;
   insert(root, "team", 3);
-  std::cout << "toast" << std::endl;
   insert(root, "toast", 1);
 
   std::cout << *root << std::endl;
