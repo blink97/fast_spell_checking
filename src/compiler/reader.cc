@@ -10,15 +10,12 @@ Node *read(std::string path)
         return NULL;
 
     std::string word;
-    int cpt = 1;
     std::string freq;
     Node *root = new Node();
     while (file >> word)
     {
         file >> freq;
-        std::cout << cpt << std::endl;
         insert(root, word, std::stoi(freq));
-        cpt++;
     }
     return root;
 }

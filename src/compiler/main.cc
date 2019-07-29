@@ -12,6 +12,12 @@ int main(int argc, char *argv[]) {
   if (argc == 2){
     Node *root = read(argv[1]);
 
+    std::ofstream f("dict.bin", std::ios::binary);
+
+    if (f.is_open())
+      writeNodeToFile(f, *root);
+    f.close();
+
     delete root;
 
     return 0;
@@ -40,9 +46,14 @@ int main(int argc, char *argv[]) {
   insert(root, "team", 3);
   insert(root, "toast", 1);
 
-  std::cout << *root << std::endl;
+  //std::cout << *root << std::endl;
 
-  std::cout << "delete" << std::endl;
+  std::ofstream f("dict.bin", std::ios::binary);
+
+  if (f.is_open())
+    writeNodeToFile(f, *root);
+  f.close();
+
   delete root;
 
   return 0;

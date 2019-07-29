@@ -1,5 +1,7 @@
 #include "trie.hh"
 
+#include <fstream>
+
 Node::Node() : freq_(0)
 {}
 
@@ -88,12 +90,16 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
 {
     //os << node.value_;
     os << "{";
+    os << "\"freq\":" << node.freq_ << ",";
+    os << "\"children\":{";
     for(auto it = node.children_.begin(); it != node.children_.end(); ++it)
     {
-        os << it->first << "(" << it->second->freq_ <<  ") : \n";
+        if (it != node.children_.begin())
+            os << ",";
+        os << "\"" << it->first << "\":";
         os << *(it->second);
     }
-    os << "}\n";
+    os << "}}";
     return os;
 }
 
@@ -133,6 +139,20 @@ void insert(Node *node, std::string value, int freq)
         node->insert_child(value, freq);
     }
 
+}
+
+bool writeNodeToFile(std::ofstream &f, Node &node)
+{
+    f.write(std::to_string(node.get_freq()).c_str(), sizeof(int));
+    auto map = node.get_children();
+    for(auto it = map.begin(); it != map.end(); ++it)
+    {
+        f.write(it->first.c_str(), sizeof(std::string));
+        bool b = writeNodeToFile(f, *(it->second));
+        if (!b)
+            return b;
+    }
+    return f.good();
 }
 
 /*void insert(Node *node, std::string value, int freq)

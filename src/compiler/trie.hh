@@ -20,8 +20,12 @@ public:
     Node(Node* node);
     ~Node();
 
+    int get_freq() {return freq_; };
+
     Node *get_child(std::string value);
     void set_child(std::string value, Node *node);
+
+    std::map<std::string, Node*> get_children() {return children_; };
 
     void insert_child(std::string value);
     void insert_child(std::string value, int freq);
@@ -34,3 +38,4 @@ public:
 };
 
 void insert(Node *node, std::string value, int freq);
+bool writeNodeToFile(std::ofstream &f, Node &node);
