@@ -10,10 +10,8 @@
 class Node
 {
 private:
-    // string to std::string*
-    // vtable ?
     int freq_;
-    std::map<std::string, Node*> children_;
+    std::map<char, Node*> children_;
 public:
     Node();
     Node(int freq);
@@ -22,20 +20,20 @@ public:
 
     int get_freq() {return freq_; };
 
-    Node *get_child(std::string value);
-    void set_child(std::string value, Node *node);
+    Node *get_child(char value);
+    void set_child(char value, Node *node);
 
-    std::map<std::string, Node*> get_children() {return children_; };
+    std::map<char, Node*> get_children() {return children_; };
 
-    void insert_child(std::string value);
-    void insert_child(std::string value, int freq);
-    void insert_child(std::string value, Node *node);
-    void set_child_key(std::string old_key, std::string new_key);
+    void insert_child(char value);
+    void insert_child(char value, int freq);
+    void insert_child(char value, Node *node);
+    void set_child_key(char old_key, char new_key);
 
-    std::string commun_prefix(std::string value);
+    char commun_prefix(char value);
 
     friend std::ostream& operator <<(std::ostream& os, const Node& node);
 };
 
-void insert(Node *node, std::string value, int freq);
-bool writeNodeToFile(std::ofstream &f, Node &node);
+void insert(Node *node, std::string, int freq);
+size_t writeNodeToFile(std::ofstream &f, Node &node);

@@ -12,11 +12,11 @@ int main(int argc, char *argv[]) {
   if (argc == 2){
     Node *root = read(argv[1]);
 
-    std::ofstream f("dict.bin", std::ios::binary);
+    // std::ofstream f("dict.bin", std::ios::binary);
 
-    if (f.is_open())
-      writeNodeToFile(f, *root);
-    f.close();
+    // if (f.is_open())
+    //   writeNodeToFile(f, *root);
+    // f.close();
 
     delete root;
 
@@ -24,20 +24,6 @@ int main(int argc, char *argv[]) {
   }
 
   Node *root = new Node();
-
-  /*char* test = (char *)malloc(5 * sizeof(char));
-  strcpy(test, "test");
-  char* slow = (char *)malloc(5 * sizeof(char));
-  strcpy(slow, "slow");
-  char* water = (char *)malloc(6 * sizeof(char));
-  strcpy(water, "water");
-  char* slower = (char *)malloc(7 * sizeof(char));
-  strcpy(slower, "slower");
-  char* team = (char *)malloc(5 * sizeof(char));
-  strcpy(team, "team");
-  char* toast= (char *)malloc(6 * sizeof(char));
-  strcpy(toast, "toast");*/
-
 
   insert(root, "test", 2);
   insert(root, "slow", 4);
