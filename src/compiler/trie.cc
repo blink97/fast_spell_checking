@@ -157,25 +157,32 @@ void insert(Node *node, std::string value, int freq)
     }
 }
 
-size_t writeNodeToFile(std::ofstream &f, Node &node)
+size_t writeNodeToFile(std::ofstream &f, Node &node, char val)
 {
     size_t size = sizeof(int) + sizeof(size_t) + sizeof(char) + sizeof(size_t);
     auto map = node.get_children();
     size_t map_size = map.size();
+    int freq = node.get_freq();
+    char value = val;
+    size_t off = 0;
+    
+    std::cout << "map size: " << map_size << std::endl;
     f.write(reinterpret_cast<const char *>(&map_size), sizeof(size_t));
+    std::cout << "value: " << value << std::endl;
+    f.write((&value), sizeof(char));
+    std::cout << "freq: " << freq << std::endl;
+    f.write(reinterpret_cast<const char *>(&freq), sizeof(int));
+    long pos = f.tellp();
+    f.write(reinterpret_cast<const char *>(&off), sizeof(size_t));
+
     for(auto it = map.begin(); it != map.end(); ++it)
     {
-        f.write(&(it->first), sizeof(char));
-        int freq = it->second->get_freq();
-        f.write(reinterpret_cast<const char *>(&freq), sizeof(int));
-        long pos = f.tellp();
-        f.write(reinterpret_cast<const char *>(&size), sizeof(size_t));
-        size_t off = writeNodeToFile(f, *(it->second));
-        long end = f.tellp();
-        size += off;
-        f.seekp(pos);
-        f.write(reinterpret_cast<const char *>(&off), sizeof(size_t));
-        f.seekp(end);
+        off += writeNodeToFile(f, *(it->second), it->first);
     }
+    long end = f.tellp();
+    f.seekp(pos);
+    f.write(reinterpret_cast<const char *>(&off), sizeof(size_t));
+    f.seekp(end);
+    size += off;
     return size;
 }

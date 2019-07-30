@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   std::ofstream f("dict.bin", std::ios::binary);
 
   if (f.is_open())
-    writeNodeToFile(f, *root);
+    writeNodeToFile(f, *root, '\0');
   f.close();
 
   delete root;

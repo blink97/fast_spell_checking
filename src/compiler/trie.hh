@@ -36,4 +36,4 @@ public:
 };
 
 void insert(Node *node, std::string, int freq);
-size_t writeNodeToFile(std::ofstream &f, Node &node);
+size_t writeNodeToFile(std::ofstream &f, Node &node, char val);
