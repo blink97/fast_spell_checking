@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
 
         if (is.is_open())
         {
-            pretty_print(is);
+            //pretty_print(is);
             //search0(is, "bou");
-            //search(is, "slowe", 1);
+            search(is, "slowe", 1);
         }
     }
 

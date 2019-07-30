@@ -48,7 +48,7 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
                     std::vector<int> previousRow,
                     std::vector<std::tuple<std::string, int, int>> *results,
                     int maxCost, char prevLetter, std::vector<int> prePreviousRow,
-                    int freq)
+                    int freq, size_t map_size)
 {
     int columns = value.length() + 1;
     std::vector<int> currentRow(columns);
@@ -81,14 +81,14 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
     {
         prevLetter = letter;
 
-        size_t size_map = read_size_t(is);
-        for (size_t i = 0; i < size_map; i++)
+        for (size_t i = 0; i < map_size; i++)
         {
+            size_t new_map_size = read_size_t(is);
             char val = read_char(is);
             int freq = read_int(is);
             size_t offset = read_size_t(is);
             size_t pos = is.tellg();
-            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq);
+            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq, new_map_size);
             is.seekg (pos + offset - SIZE_NODE);
         }
     }
@@ -103,20 +103,28 @@ void search(std::ifstream &is, std::string value, int maxDistance)
     std::vector<std::tuple<std::string, int, int>> *results = new std::vector<std::tuple<std::string, int, int>>();
 
     size_t size_map = read_size_t(is);
+    read_char(is);
+    read_int(is);
+    read_size_t(is);
 
     for (size_t i = 0; i < size_map; i++)
     {
+        size_t new_map_size = read_size_t(is);
         char val = read_char(is);
         int freq = read_int(is);
         size_t offset = read_size_t(is);
         size_t pos = is.tellg();
-        searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq);
+        searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq, new_map_size);
         std::cout << pos + offset - SIZE_NODE << std::endl;
         is.seekg (pos + offset - SIZE_NODE);
-        std:: cout << is.tellg() << std::endl;
     }
 
-    std::cout << results << std::endl;
+    for(auto it = results->begin(); it != results->end(); ++it)
+    {
+        std::cout << "value: " << std::get<0>(*it) << std::endl;
+        std::cout << "freq: " << std::get<1>(*it) << std::endl;
+        std::cout << "distance: " << std::get<2>(*it) << std::endl;
+    }
 
     delete results;
 }
