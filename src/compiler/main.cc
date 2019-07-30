@@ -25,12 +25,12 @@ int main(int argc, char *argv[]) {
 
   Node *root = new Node();
 
-  insert(root, "test", 2);
-  insert(root, "slow", 4);
-  insert(root, "water", 5);
+  insert(root, "test", 1);
+  insert(root, "slow", 2);
+  insert(root, "water", 3);
   insert(root, "slower", 4);
-  insert(root, "team", 3);
-  insert(root, "toast", 1);
+  insert(root, "team", 5);
+  insert(root, "toast", 6);
 
   //std::cout << *root << std::endl;
 

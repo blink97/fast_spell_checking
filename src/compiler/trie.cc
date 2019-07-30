@@ -159,21 +159,23 @@ void insert(Node *node, std::string value, int freq)
 
 size_t writeNodeToFile(std::ofstream &f, Node &node)
 {
-    size_t size = 0;
-    int freq = node.get_freq();
-    f.write(reinterpret_cast<const char *>(&freq), sizeof(int));
-    size  += sizeof(int);
+    size_t size = sizeof(int) + sizeof(size_t) + sizeof(char) + sizeof(size_t);
     auto map = node.get_children();
     size_t map_size = map.size();
     f.write(reinterpret_cast<const char *>(&map_size), sizeof(size_t));
-    size += sizeof(size_t);
     for(auto it = map.begin(); it != map.end(); ++it)
     {
         f.write(&(it->first), sizeof(char));
-        size += sizeof(char);
-        size += sizeof(size_t);
+        int freq = it->second->get_freq();
+        f.write(reinterpret_cast<const char *>(&freq), sizeof(int));
+        long pos = f.tellp();
         f.write(reinterpret_cast<const char *>(&size), sizeof(size_t));
-        size += writeNodeToFile(f, *(it->second));
+        size_t off = writeNodeToFile(f, *(it->second));
+        long end = f.tellp();
+        size += off;
+        f.seekp(pos);
+        f.write(reinterpret_cast<const char *>(&off), sizeof(size_t));
+        f.seekp(end);
     }
     return size;
 }
