@@ -22,6 +22,17 @@ The project is now ready
     * Can be use with file
         * cat test.txt | ./TextMiningApp /path/to/dict.bin
 
+## Documentation
+Documentation with doxygen is available :
+
+* doxygen DoxygenConfig 
+* firefox (or chromium) doc/html/index.html
+
+## Warning
+
+The program didn't respect the RAM limitation. To use the program their are a dict.bin in the directory input/
+at the root. It's the serialize dictonary of the words in the file words.txt (in the input/ directory too)
+
 ## Design choice (Question 1)
 
 For this project, I build a Trie to compute all my dictionary. I use that structure because is easy to implement and fast to use.
