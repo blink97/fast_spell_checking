@@ -166,11 +166,8 @@ size_t writeNodeToFile(std::ofstream &f, Node &node, char val)
     char value = val;
     size_t off = 0;
     
-    std::cout << "map size: " << map_size << std::endl;
     f.write(reinterpret_cast<const char *>(&map_size), sizeof(size_t));
-    std::cout << "value: " << value << std::endl;
     f.write((&value), sizeof(char));
-    std::cout << "freq: " << freq << std::endl;
     f.write(reinterpret_cast<const char *>(&freq), sizeof(int));
     long pos = f.tellp();
     f.write(reinterpret_cast<const char *>(&off), sizeof(size_t));

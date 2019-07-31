@@ -50,6 +50,7 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
                     int maxCost, char prevLetter, std::vector<int> prePreviousRow,
                     int freq, size_t map_size, std::string prefix)
 {
+    //std::cout << prefix << ": " << freq << std::endl;
     int columns = value.length() + 1;
     std::vector<int> currentRow(columns);
     currentRow[0] = previousRow[0] + 1;
@@ -88,8 +89,10 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
             int freq = read_int(is);
             size_t offset = read_size_t(is);
             size_t pos = is.tellg();
-            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq, new_map_size, prefix.append(1, val));
-            is.seekg (pos + offset - SIZE_NODE);
+            std::string new_prefix = prefix;
+            new_prefix.append(1, val);
+            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq, new_map_size, new_prefix);
+            is.seekg (pos + offset);
         }
     }
 }
@@ -114,10 +117,12 @@ void search(std::ifstream &is, std::string value, int maxDistance)
         int freq = read_int(is);
         size_t offset = read_size_t(is);
         size_t pos = is.tellg();
+        //std::cout << "val is " << val << std::endl;
         std::string prefix;
         prefix.append(1, val);
         searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq, new_map_size, prefix);
-        is.seekg (pos + offset - SIZE_NODE);
+        is.seekg (pos + offset);
+        //std::cout << pos + offset << std::endl;
     }
 
     // DISPLAY
