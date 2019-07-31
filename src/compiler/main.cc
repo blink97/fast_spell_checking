@@ -9,10 +9,11 @@
 
 
 int main(int argc, char *argv[]) {
-  if (argc == 2){
+  if (argc == 3){
+    std::string path = argv[2];
     Node *root = read(argv[1]);
 
-    std::ofstream f("dict.bin", std::ios::binary);
+    std::ofstream f(path, std::ios::binary);
 
     if (f.is_open())
       writeNodeToFile(f, *root, '\0');
@@ -23,22 +24,7 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  Node *root = new Node();
+  std::cerr << "Usage: ./TextMiningCompiler /path/to/words.txt /path/to/dict.bin" << std::endl;
 
-  insert(root, "test", 1);
-  insert(root, "slow", 2);
-  insert(root, "water", 3);
-  insert(root, "slower", 4);
-  insert(root, "team", 5);
-  insert(root, "toast", 6);
-
-  std::ofstream f("dict.bin", std::ios::binary);
-
-  if (f.is_open())
-    writeNodeToFile(f, *root, '\0');
-  f.close();
-
-  delete root;
-
-  return 0;
+  return 1;
 }
