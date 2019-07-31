@@ -43,8 +43,6 @@ int main(int argc, char *argv[]) {
 
         if (is.is_open())
         {
-            //pretty_print(is);
-            //search0(is, "bou");
             search(is, "slowe", 1);
         }
     }
@@ -64,7 +62,6 @@ int main(int argc, char *argv[]) {
     std::ifstream is(argv[1], std::ios::binary);
     if (is.is_open())
         search(is, content, number);
-        //pretty_print(is, "");
 
     return 0;
 }
