@@ -1,3 +1,11 @@
+/*!
+ * \file app/main.hh
+ * \brief Launch the app
+ * \author Etienne G. (gandil_e)
+ * \version 1.0
+ * \date 31/07/2019
+ */
+
 #include <unistd.h>
 #include <stdio.h>
 
@@ -8,27 +16,6 @@
 
 #include "file.hh"
 #include "levenshtein.hh"
-
-void pretty_print(std::ifstream &is, std::string prefix)
-{
-    size_t size = read_size_t(is);
-    char value = read_char(is);
-    int freq = read_int(is);
-    size_t offset = read_size_t(is);
-
-    size_t pos = is.tellg();
-
-    std::string new_prefix = prefix;
-    new_prefix.append(1, value);
-
-    if (freq > 0)
-        std::cout << new_prefix << " (" << freq << ")" << std::endl;
-
-    for(size_t i = 0; i < size; i++)
-    {
-        pretty_print(is, new_prefix);
-    }
-}
 
 int main(int argc, char *argv[]) {
     if (argc != 2){

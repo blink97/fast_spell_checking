@@ -1,6 +1,10 @@
-// read words
-// create patricia trie
-// compile trie in binary
+/*!
+ * \file compiler/main.cc
+ * \brief Launch the compiler
+ * \author Etienne G. (gandil_e)
+ * \version 1.0
+ * \date 31/07/2019
+ */
 
 #include "trie.hh"
 #include "reader.hh"
