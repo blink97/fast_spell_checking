@@ -76,8 +76,6 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
 
 void insert(Node *node, std::string value, int freq)
 {
-    if (freq == 482905)
-        std::cout << value << std::endl;
     for (size_t i = 0; i < value.length(); i++)
     {
         char c = value[i];

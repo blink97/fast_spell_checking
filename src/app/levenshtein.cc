@@ -13,7 +13,7 @@ bool sort_vector(std::tuple<std::string, int, int> tuple1,
         return std::get<2>(tuple1) < std::get<2>(tuple2);
     if (std::get<1>(tuple1) != std::get<1>(tuple2))
         return std::get<1>(tuple1) > std::get<1>(tuple2);
-    return std::get<0>(tuple1) > std::get<0>(tuple2);
+    return std::get<0>(tuple1) < std::get<0>(tuple2);
 
        
 }
@@ -105,7 +105,7 @@ void search(std::ifstream &is, std::string value, int maxDistance)
             std::cout << ",";
         std::cout << "{";
         std::cout << "\"word\":\"" << std::get<0>(*it) << "\",";
-        std::cout << "\"freq\":\"" << std::get<1>(*it) << "\",";
+        std::cout << "\"freq\":" << std::get<1>(*it) << ",";
         std::cout << "\"distance\":" << std::get<2>(*it);
         std::cout << "}";
     }
