@@ -19,6 +19,7 @@ public:
     ~Node();
 
     int get_freq() {return freq_; };
+    void set_freq(int freq);
 
     Node *get_child(char value);
     void set_child(char value, Node *node);

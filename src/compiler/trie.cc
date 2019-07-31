@@ -29,6 +29,11 @@ Node *Node::get_child(char value)
     return res->second;
 }
 
+void Node::set_freq(int freq)
+{
+    freq_ = freq;
+}
+
 void Node::set_child(char value, Node *node)
 {
     auto it = (*this).children_.find(value);
@@ -143,6 +148,8 @@ std::ostream& operator <<(std::ostream& os, const Node& node)
 
 void insert(Node *node, std::string value, int freq)
 {
+    if (freq == 482905)
+        std::cout << value << std::endl;
     for (size_t i = 0; i < value.length(); i++)
     {
         char c = value[i];
@@ -152,6 +159,10 @@ void insert(Node *node, std::string value, int freq)
                 node->insert_child(c, freq);
             else
                 node->insert_child(c);
+        }
+        else if (i == value.length() - 1)
+        {
+            node->get_child(c)->set_freq(freq);
         }
         node = node->get_child(c);
     }
