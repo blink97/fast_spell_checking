@@ -32,6 +32,8 @@ void pretty_print(std::ifstream &is, std::string prefix)
 
 int main(int argc, char *argv[]) {
     if (argc != 2){
+        std::cerr << "Usage: echo \"approx n word\" | ./TextMiningApp /path/to/dict.bin" << std::endl;
+        std::cerr << "Usage: ./TextMiningApp /path/to/dict.bin" << std::endl;
         return 1;
     }
 
@@ -41,9 +43,23 @@ int main(int argc, char *argv[]) {
     {
         std::ifstream is(argv[1], std::ios::binary);
 
-        if (is.is_open())
+        while (1)
         {
-            search(is, "slowe", 1);
+            std::string content;
+            std::string number;
+            int n;
+            std::string word;
+            std::cin >> content >> number >> word;
+            std::istringstream iss(number);
+            iss >> n;
+            if (!iss.fail() && content == "approx")
+            {
+                if (is.is_open())
+                {
+                    search(is, word, n);
+                    is.seekg(0);
+                }
+            }
         }
     }
 
