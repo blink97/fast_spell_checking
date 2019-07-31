@@ -7,41 +7,15 @@
 
 #define SIZE_NODE 21
 
-void search0(std::ifstream &is, std::string value)
-{
-    size_t i = 0;
-    size_t size_map = 0;
-    size_t cpt = 0;
-    while(i < value.length() && cpt != size_map && cpt != 0)
-    {
-        size_t size = read_size_t(is);
-        if (size_map == 0)
-            size_map = size;
-        char val = read_char(is);
-        int freq = read_int(is);
-        size_t offset = read_size_t(is);
-        if (val == value[i])
-        {
-            std::cout << val;
-            if (i == value.length() - 1)
-            {
-                if (freq > 0)
-                    std::cout << " : " << freq << std::endl;
-                else
-                    std::cout << " not a real word" << std::endl;
-            }
-            cpt = 0;
-            size_map = 0;
-            i++;
-        }
-        else
-        {
-            size_t pos = is.tellg();
-            is.seekg (pos + offset - SIZE_NODE);
-            cpt++;
-        }
-    }
-    return;
+bool sort_vector(std::tuple<std::string, int, int> tuple1,
+                std::tuple<std::string, int, int> tuple2){
+    if (std::get<2>(tuple1) != std::get<2>(tuple2)) 
+        return std::get<2>(tuple1) < std::get<2>(tuple2);
+    if (std::get<1>(tuple1) != std::get<1>(tuple2))
+        return std::get<1>(tuple1) > std::get<1>(tuple2);
+    return std::get<0>(tuple1) > std::get<0>(tuple2);
+
+       
 }
 
 void searchRecursive(std::ifstream &is, char letter, std::string value,
@@ -50,7 +24,6 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
                     int maxCost, char prevLetter, std::vector<int> prePreviousRow,
                     int freq, size_t map_size, std::string prefix)
 {
-    //std::cout << prefix << ": " << freq << std::endl;
     int columns = value.length() + 1;
     std::vector<int> currentRow(columns);
     currentRow[0] = previousRow[0] + 1;
@@ -117,15 +90,14 @@ void search(std::ifstream &is, std::string value, int maxDistance)
         int freq = read_int(is);
         size_t offset = read_size_t(is);
         size_t pos = is.tellg();
-        //std::cout << "val is " << val << std::endl;
         std::string prefix;
         prefix.append(1, val);
         searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq, new_map_size, prefix);
         is.seekg (pos + offset);
-        //std::cout << pos + offset << std::endl;
     }
 
     // DISPLAY
+    std::sort(results->begin(), results->end(), sort_vector);
     std::cout << "[";
     for(auto it = results->begin(); it != results->end(); ++it)
     {
