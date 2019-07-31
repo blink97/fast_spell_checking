@@ -48,7 +48,7 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
                     std::vector<int> previousRow,
                     std::vector<std::tuple<std::string, int, int>> *results,
                     int maxCost, char prevLetter, std::vector<int> prePreviousRow,
-                    int freq, size_t map_size)
+                    int freq, size_t map_size, std::string prefix)
 {
     int columns = value.length() + 1;
     std::vector<int> currentRow(columns);
@@ -75,7 +75,7 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
     }
 
     if (currentRow[value.length()] <= maxCost && freq > 0)
-        results->push_back(std::make_tuple(value, freq, currentRow[value.length()]));
+        results->push_back(std::make_tuple(prefix, freq, currentRow[value.length()]));
 
     if (*std::min_element(currentRow.begin(), currentRow.end()) <= maxCost)
     {
@@ -88,7 +88,7 @@ void searchRecursive(std::ifstream &is, char letter, std::string value,
             int freq = read_int(is);
             size_t offset = read_size_t(is);
             size_t pos = is.tellg();
-            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq, new_map_size);
+            searchRecursive(is, val, value, currentRow, results, maxCost, prevLetter, previousRow, freq, new_map_size, prefix.append(1, val));
             is.seekg (pos + offset - SIZE_NODE);
         }
     }
@@ -114,17 +114,25 @@ void search(std::ifstream &is, std::string value, int maxDistance)
         int freq = read_int(is);
         size_t offset = read_size_t(is);
         size_t pos = is.tellg();
-        searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq, new_map_size);
-        std::cout << pos + offset - SIZE_NODE << std::endl;
+        std::string prefix;
+        prefix.append(1, val);
+        searchRecursive(is, val, value, currentRow, results, maxDistance, '\0', currentRow, freq, new_map_size, prefix);
         is.seekg (pos + offset - SIZE_NODE);
     }
 
+    // DISPLAY
+    std::cout << "[";
     for(auto it = results->begin(); it != results->end(); ++it)
     {
-        std::cout << "value: " << std::get<0>(*it) << std::endl;
-        std::cout << "freq: " << std::get<1>(*it) << std::endl;
-        std::cout << "distance: " << std::get<2>(*it) << std::endl;
+        if (it != results->begin())
+            std::cout << ",";
+        std::cout << "{";
+        std::cout << "\"word\":\"" << std::get<0>(*it) << "\",";
+        std::cout << "\"freq\":\"" << std::get<1>(*it) << "\",";
+        std::cout << "\"distance\":" << std::get<2>(*it);
+        std::cout << "}";
     }
+    std::cout << "]" << std::endl;
 
     delete results;
 }
