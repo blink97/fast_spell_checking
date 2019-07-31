@@ -38,11 +38,10 @@ int main(int argc, char *argv[]) {
     }
 
     FILE* fp = stdin;
+    std::ifstream is(argv[1], std::ios::binary);
 
     if(isatty(fileno(fp)))
     {
-        std::ifstream is(argv[1], std::ios::binary);
-
         while (1)
         {
             std::string content;
@@ -65,19 +64,20 @@ int main(int argc, char *argv[]) {
 
     std::string content;
     std::cin >> content;
-    if (content != "approx")
-    return 0;
-    std::cin >> content;
-    int number;
-    std::istringstream iss(content);
-    iss >> number;
-    if (iss.fail())
-    return 0;
-    std::cin >> content;
-
-    std::ifstream is(argv[1], std::ios::binary);
-    if (is.is_open())
+    while(content == "approx" && is.is_open())
+    {
+        std::cin >> content;
+        int number;
+        std::istringstream iss(content);
+        iss >> number;
+        if (iss.fail())
+        return 0;
+        std::cin >> content;
         search(is, content, number);
+        is.seekg(0);
+
+        std::cin >> content;
+    }
 
     return 0;
 }
