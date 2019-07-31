@@ -59,7 +59,6 @@ void Node::set_child_key(char old_key, char new_key)
 
 std::ostream& operator <<(std::ostream& os, const Node& node)
 {
-    //os << node.value_;
     os << "{";
     os << "\"freq\":" << node.freq_ << ",";
     os << "\"children\":{";

@@ -1,7 +1,7 @@
 #pragma once
 
 /*!
- * \file compiler/trie.hh
+ * \file compiler/trie.cc
  * \brief Function concerning the trie
  * \author Etienne G. (gandil_e)
  * \version 1.0

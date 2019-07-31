@@ -1,5 +1,5 @@
 /*!
- * \file app/main.hh
+ * \file app/main.cc
  * \brief Launch the app
  * \author Etienne G. (gandil_e)
  * \version 1.0

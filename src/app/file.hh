@@ -1,7 +1,7 @@
 #pragma once
 
 /*!
- * \file app/file.hh
+ * \file app/file.cc
  * \brief small API to read binary file containing the words
  *  
  * For each node you need to use in order "read_size_t -> read_char -> read_int -> read_size_t"

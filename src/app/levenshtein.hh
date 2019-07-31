@@ -1,7 +1,7 @@
 #pragma once
 
 /*!
- * \file app/levenshtein.hh
+ * \file app/levenshtein.cc
  * \brief Search function
  * \author Etienne G. (gandil_e)
  * \version 1.0
